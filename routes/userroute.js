@@ -29,4 +29,23 @@ Router.post("/signup", asynchandler(async(req,res)=>{
 }))
 
 
+
+Router.post("/signin", asynchandler(async(req,res)=>{
+
+    const user = await User.findOne({email: req.body.email});
+    if(user){
+        if (bcrypt.compareSync(req.body.password, user.password)){
+            res.send({
+                msg: "Login Successful",
+                token: token(user)
+            })
+        }
+ 
+    }
+    else{
+        res.status(401).send({msg: "Invalid Credentials"})
+    }
+}))
+
+
 module.exports = Router;
