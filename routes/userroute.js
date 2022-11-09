@@ -9,6 +9,10 @@ const Router = express.Router();
 
 const asynchandler = require("express-async-handler")
 
+
+const nodemail = require("nodemailer")
+
+
 Router.post("/signup", asynchandler(async(req,res)=>{
 
     const user = new User({
