@@ -13,21 +13,40 @@ const asynchandler = require("express-async-handler")
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
 
-    const seller = new Seller({
+    // const seller = new Seller({
 
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email:req.body.email,
-        phonenumber:req.body.phonenumber,
-        password: bcrypt.hashSync(req.body.password,10)
-    })
+    //     firstname: req.body.firstname,
+    //     lastname: req.body.lastname,
+    //     email:req.body.email,
+    //     phonenumber:req.body.phonenumber,
+    //     password: bcrypt.hashSync(req.body.password,10)
+    // })
 
-    const createdSeller = await seller.save();
+    // const createdSeller = await seller.save();
 
-    res.send({
-        message: "seller Registration Successful",
-        token: sellertoken(createdSeller)
-    })
+    // res.send({
+    //     message: "seller Registration Successful",
+    //     token: sellertoken(createdSeller)
+    // })
+
+
+    
+const {firstname,lastname, password, email, phonenumber} = req.body;
+const salt = await bcrypt.genSalt();
+const hashpassword = await bcrypt.hash(password, salt);
+try{
+    await User.create({
+        firstname:firstname,
+        lastname: lastname,
+        email:email,
+        password: hashpassword,
+        phonenumber:phonenumber
+    });
+    res.json({msg: "Registration successful"})
+}
+catch(error){
+    console.log(Error)
+}
 
 }))
 

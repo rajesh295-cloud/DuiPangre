@@ -15,21 +15,21 @@ const nodemail = require("nodemailer")
 
 Router.post("/signup", asynchandler(async(req,res)=>{
 
-    const user = new User({
-
-        fullname:req.body.fullname,
-        email:req.body.email,
-        phonenumber:req.body.phonenumber,
-        password: bcrypt.hashSync(req.body.password,10)
-    })
-
-    const createdUser = await user.save();
-
-    res.send({
-        message: "User Registration Successful",
-        token: token(createdUser)
-    })
-
+const {fullname, password, email, phonenumber} = req.body;
+const salt = await bcrypt.genSalt();
+const hashpassword = await bcrypt.hash(password, salt);
+try{
+    await User.create({
+        fullname:fullname,
+        email:email,
+        password: hashpassword,
+        phonenumber:phonenumber
+    });
+    res.json({msg: "Registration successful"})
+}
+catch(error){
+    console.log(Error)
+}
 }))
 
 
