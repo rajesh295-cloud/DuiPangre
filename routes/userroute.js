@@ -42,7 +42,11 @@ Router.post("/signin", asynchandler(async(req,res)=>{
             res.send({
                 msg: "Login Successful",
                 token: token(user)
+           
             })
+        }
+        else{
+            res.status(404).send({msg: "Errors"})
         }
  
     }

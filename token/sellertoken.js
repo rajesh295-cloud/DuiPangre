@@ -1,26 +1,22 @@
-const jwt = require("jsonwebtoken")
-
-const sellertoken = (req, res, next) => {
-    const authorization = req.headers.authorization;
-    if (authorization) {
-      const tokenizer = authorization.slice(7, authorization.length); 
-      jwt.verify(
-        tokenizer,
-         'anysecrets',
-        (err, decode) => {
-          if (err) {
-            res.status(401).send({ message: 'Invalid Token' });
-          } else {
-            req.user = decode;
-            next();
-          }
-        }
-      );
-    } else {
-      res.status(401).send({ message: 'No Token' });
+const jwt = require('jsonwebtoken');
+const User = require('../models/seller');
+module.exports.sellertoken = (req, res, next) => {
+    let authHeader = req.headers.authorization;
+    if (!authHeader) {
+        let err = new Error("Bearer token is not set!");
+        err.status = 401;
+        return next(err);
     }
-  };
-
-
-
-module.exports = sellertoken;
+    let token = authHeader.split(' ')[1];
+    let data;
+    try {
+        data = jwt.verify(token, "mysecretkey" );
+    } catch (err) {
+        throw new Error('Token could not be verified!');
+    }
+    User.findById(data.id)
+        .then((user) => {
+            req.user = user;
+            next();
+        })
+}

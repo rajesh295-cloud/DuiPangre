@@ -8,7 +8,7 @@ const cors = require("cors")
 
 app.use(cors())
 
-
+const bodyparser = require("body-parser")
 
 
 
@@ -16,6 +16,7 @@ require("./database/db")
 
 
 app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 app.use(userRouter)
 app.use(sellerRouter)
 

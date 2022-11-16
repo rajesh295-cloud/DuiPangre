@@ -1,24 +1,17 @@
 const jwt = require('jsonwebtoken')
-const token = (req, res, next) => {
-    const authorization = req.headers.authorization;
-    if (authorization) {
-      const tokens = authorization.slice(7, authorization.length); // Bearer XXXXXX
-      jwt.verify(
-        tokens,
-         'secrets',
-        (err, decode) => {
-          if (err) {
-            res.status(401).send({ message: 'Invalid Token' });
-          } else {
-            req.user = decode;
-            next();
-          }
-        }
-      );
-    } else {
-      res.status(401).send({ message: 'No Token' });
+const token = (user) =>{
+  return jwt.sign(
+    {
+      _id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      phonenumber: user.phonenumber,
+      password: user.password
+    },
+    "anysecrets",
+    {
+      expiresIn: '48h',
     }
-  };
-
-
+  );
+}
   module.exports = token;

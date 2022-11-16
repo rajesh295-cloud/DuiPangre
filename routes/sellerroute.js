@@ -4,50 +4,14 @@ const bcrypt = require("bcryptjs")
 
 
 const sellertoken = require("../token/sellertoken")
-
 const Router = express.Router();
 
 const asynchandler = require("express-async-handler");
-const token = require("../token/token");
-
+const jwt = require("jsonwebtoken")
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
 
-    // const seller = new Seller({
-
-    //     firstname: req.body.firstname,
-    //     lastname: req.body.lastname,
-    //     email:req.body.email,
-    //     phonenumber:req.body.phonenumber,
-    //     password: bcrypt.hashSync(req.body.password,10)
-    // })
-
-    // const createdSeller = await seller.save();
-
-    // res.send({
-    //     message: "seller Registration Successful",
-    //     token: sellertoken(createdSeller)
-    // })
-
-
-    
-const {firstname,lastname, password, email, phonenumber} = req.body;
-const salt = await bcrypt.genSalt();
-const hashpassword = await bcrypt.hash(password, salt);
-try{
-    await Seller.create({
-        firstname:firstname,
-        lastname: lastname,
-        email:email,
-        password: hashpassword,
-        phonenumber:phonenumber
-    });
-    res.json({msg: "Registration successful"})
-}
-catch(error){
-    console.log(error)
-}
 
 }))
 
@@ -55,21 +19,29 @@ catch(error){
 
 
 Router.post("/seller/signin", asynchandler(async(req,res)=>{
+const { email,  password} = req.body;
 
-    const seller = await Seller.findOne({email: req.body.email});
-    if(seller){
-        if (bcrypt.compareSync(req.body.password, seller.password)){
-            res.send({
-                msg: "seller Login Successful",
-                token: sellertoken(seller)
-            })
-        }
- 
-    }
-    else{
-        res.status(401).send({msg: "Invalid Credentials"})
-    }
+try{
+  const existinguser = await Seller.findOne({ email: email})
+  if(!existinguser){
+    return res.status(404).json({message: "User not found"})
+  }
+  const matchpassword = await bcrypt.hash(password, existinguser.password)
+  if(!matchpassword){
+    return res.status(400).json({message: "Invalid credentials"})
+  }
+  const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "anysecrets");
+  res.status(201).send({token: tokens})
+} 
+catch(error){
+    console.log(error)
+    res.status(500).json({msg: "Something went wrong"});
+
+}
+
 }))
+
+
 
 
 module.exports = Router;
