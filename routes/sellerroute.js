@@ -3,7 +3,7 @@ const Seller = require("../models/seller")
 const bcrypt = require("bcryptjs")
 
 
-const sellertoken = require("../token/sellertoken")
+const auth = require("../token/auth")
 const Router = express.Router();
 
 const asynchandler = require("express-async-handler");
@@ -30,7 +30,7 @@ try{
   if(!matchpassword){
     return res.status(400).json({message: "Invalid credentials"})
   }
-  const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "anysecrets");
+  const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "mysecretkey");
   res.status(201).send({token: tokens})
 } 
 catch(error){
@@ -42,6 +42,9 @@ catch(error){
 }))
 
 
+Router.get("/seller" , auth.sellerGuard, (req,res) =>{
+ res.send({msg : "Wherevefr "})
+} )
 
 
 
