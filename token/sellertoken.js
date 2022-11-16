@@ -7,7 +7,7 @@ module.exports.sellertoken = (req, res, next) => {
         err.status = 401;
         return next(err);
     }
-    let token = authHeader.split(' ')[1];
+    let token = authHeader.split(" ")[1];
     let data;
     try {
         data = jwt.verify(token, "mysecretkey" );
