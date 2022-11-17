@@ -33,27 +33,28 @@ catch(error){
 }))
 
 
-
 Router.post("/signin", asynchandler(async(req,res)=>{
-
-    const user = await User.findOne({email: req.body.email});
-    if(user){
-        if (bcrypt.compareSync(req.body.password, user.password)){
-            res.send({
-                msg: "Login Successful",
-                token: token(user)
-           
-            })
-        }
-        else{
-            res.status(404).send({msg: "Errors"})
-        }
- 
+    const { email,  password} = req.body;
+    
+    try{
+      const existinguser = await User.findOne({ email: email})
+      if(!existinguser){
+        return res.status(404).json({message: "User not found"})
+      }
+      const matchpassword = await bcrypt.hash(password, existinguser.password)
+      if(!matchpassword){
+        return res.status(400).json({message: "Invalid credentials"})
+      }
+      const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "usersecrets");
+      res.status(201).send({token: tokens})
+    } 
+    catch(error){
+        console.log(error)
+        res.status(500).json({msg: "Something went wrong"});
+    
     }
-    else{
-        res.status(401).send({msg: "Invalid Credentials"})
-    }
-}))
-
+    
+    }))
+    
 
 module.exports = Router;

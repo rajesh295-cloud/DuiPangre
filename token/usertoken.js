@@ -1,10 +1,13 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/seller");
+const jwt = require("jsonwebtoken")
+const User = require("../models/user")
 
-module.exports.sellerGuard = (req,res,next)=>{
+
+
+
+module.exports.userGuard = (req,res,next)=>{
     try{
     const token = req.headers.authorization.split(" ")[1];
-   const data = jwt.verify(token, 'mysecretkey')
+   const data = jwt.verify(token, 'usersecrets')
    User.findOne({_id : data.user_id})
    .then((result)=>{
         req.userInfo = result;
