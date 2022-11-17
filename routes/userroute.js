@@ -3,7 +3,7 @@ const express = require("express")
 
 const User = require("../models/user")
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken")
 const token = require("../token/token")
 const Router = express.Router();
 
@@ -46,7 +46,7 @@ Router.post("/signin", asynchandler(async(req,res)=>{
         return res.status(400).json({message: "Invalid credentials"})
       }
       const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "usersecrets");
-      res.status(201).send({token: tokens})
+      res.status(201).send({ msg:"Login successful", token: tokens})
     } 
     catch(error){
         console.log(error)
