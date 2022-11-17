@@ -11,7 +11,22 @@ const jwt = require("jsonwebtoken")
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
-
+  const {firstname,lastname, password, email, phonenumber} = req.body;
+  const salt = await bcrypt.genSalt();
+  const hashpassword = await bcrypt.hash(password, salt);
+  try{
+      await Seller.create({
+          firstname:firstname,
+          lastname: lastname,
+          email:email,
+          password: hashpassword,
+          phonenumber:phonenumber
+      });
+      res.json({msg: "Registration successful"})
+  }
+  catch(error){
+      console.log(Error)
+  }
 
 }))
 
