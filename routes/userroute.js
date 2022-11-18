@@ -1,6 +1,6 @@
 const express = require("express")
 
-
+const auth = require("../token/usertoken")
 const User = require("../models/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -56,5 +56,19 @@ Router.post("/signin", asynchandler(async(req,res)=>{
     
     }))
     
-
+    router.put("/user/update", auth.userGuard, asynchandler(async(req,res)=>{
+      console.log(req.body)
+      const fullname = req.body.fullname;
+      const email = req.body.email;
+      const phonenumber = req.body.phonenumber;
+      User.updateOne({_id:req.userInfo._id},
+          {fullname:fullname, email:email, phone:phone})
+          .then(()=>{
+              res.status(201).json({msg:"User updated"})
+          })
+          .catch((e)=>{
+              res.json({msg:"User not updated"})
+          })
+  }))
+   
 module.exports = Router;

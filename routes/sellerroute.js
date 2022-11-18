@@ -46,7 +46,7 @@ try{
     return res.status(400).json({message: "Invalid credentials"})
   }
   const tokens = jwt.sign({ email: existinguser.email, id: existinguser._id}, "mysecretkey");
-  res.status(201).send({token: tokens})
+  res.status(201).send({msg:"Login Succesful" , token: tokens})
 } 
 catch(error){
     console.log(error)
