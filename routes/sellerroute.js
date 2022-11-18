@@ -57,25 +57,33 @@ catch(error){
 }))
 
 
-Router.get("/seller" , auth.sellerGuard, (req,res) =>{
- res.send({msg : "Wherevefr "})
+Router.get("/seller" , auth.sellerGuard, async (req,res) =>{
+  const seller = await Seller.findById({_id: req.params.id,
+  })
+
+  res.status(200).json({
+    success: true,
+    seller,
+  });
 } )
 
 
-Router.put("/seller/update", auth.sellerGuard, asynchandler(async(req,res)=>{
-  console.log(req.body)
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const email = req.body.email;
-  const phonenumber = req.body.phonenumber;
-  Seller.updateOne({_id:req.sellerinfo._id},
-      {firstname:firstname,lastname:lastname, email:email, phone:phone})
-      .then(()=>{
-          res.status(201).json({msg:"Seller updated"})
-      })
-      .catch((e)=>{
-          res.json({msg:"User not updated"})
-      })
-}))
+Router.put("/:id", auth.sellerGuard, async (req, res) => {
+  if (req.body.password) {
+    req.body.password = req.params.password
+  }
 
+  try {
+    const updatedSeller = await Seller.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedSeller);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 module.exports = Router;

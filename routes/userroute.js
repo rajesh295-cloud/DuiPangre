@@ -20,6 +20,7 @@ const salt = await bcrypt.genSalt();
 const hashpassword = await bcrypt.hash(password, salt);
 try{
     await User.create({
+
         fullname:fullname,
         email:email,
         password: hashpassword,
@@ -55,20 +56,26 @@ Router.post("/signin", asynchandler(async(req,res)=>{
     }
     
     }))
-    
-    Router.put("/user/update", auth.userGuard, asynchandler(async(req,res)=>{
-      console.log(req.body)
-      const fullname = req.body.fullname;
-      const email = req.body.email;
-      const phonenumber = req.body.phonenumber;
-      User.updateOne({_id:req.userInfo._id},
-          {fullname:fullname, email:email, phone:phone})
-          .then(()=>{
-              res.status(201).json({msg:"User updated"})
-          })
-          .catch((e)=>{
-              res.json({msg:"User not updated"})
-          })
-  }))
-   
+
+
+
+Router.put("/:id", auth.userGuard, async (req, res) => {
+  if (req.body.password) {
+    req.body.password = req.params.password
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = Router;
