@@ -56,7 +56,7 @@ Router.post("/signin", asynchandler(async(req,res)=>{
     
     }))
     
-    router.put("/user/update", auth.userGuard, asynchandler(async(req,res)=>{
+    Router.put("/user/update", auth.userGuard, asynchandler(async(req,res)=>{
       console.log(req.body)
       const fullname = req.body.fullname;
       const email = req.body.email;

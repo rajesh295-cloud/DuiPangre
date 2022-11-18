@@ -62,6 +62,20 @@ Router.get("/seller" , auth.sellerGuard, (req,res) =>{
 } )
 
 
-
+Router.put("/seller/update", auth.sellerGuard, asynchandler(async(req,res)=>{
+  console.log(req.body)
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const phonenumber = req.body.phonenumber;
+  Seller.updateOne({_id:req.sellerinfo._id},
+      {firstname:firstname,lastname:lastname, email:email, phone:phone})
+      .then(()=>{
+          res.status(201).json({msg:"Seller updated"})
+      })
+      .catch((e)=>{
+          res.json({msg:"User not updated"})
+      })
+}))
 
 module.exports = Router;
