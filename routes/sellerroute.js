@@ -7,7 +7,8 @@ const auth = require("../token/auth")
 const Router = express.Router();
 
 const asynchandler = require("express-async-handler");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
@@ -86,4 +87,19 @@ Router.put("/:id", auth.sellerGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
+
+
+Router.get("/a", auth.sellerGuard, async (req, res) => {
+//  const fullname = req.body.fullname;
+//  const phonenumber = req.body.phonenumber;
+//  const email = req.body.email;
+
+console.log({_id: req.userinfo3._id})
+
+
+});
+
+
 module.exports = Router;
