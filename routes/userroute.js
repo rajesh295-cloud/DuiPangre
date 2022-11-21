@@ -29,7 +29,7 @@ try{
     res.json({msg: "Registration successful"})
 }
 catch(error){
-    console.log(Error)
+    res.json({msg: "Invalid Credentials "})
 }
 }))
 

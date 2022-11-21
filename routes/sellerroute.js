@@ -26,7 +26,7 @@ Router.post("/seller/signup", asynchandler(async(req,res)=>{
       res.json({msg: "Registration successful"})
   }
   catch(error){
-      console.log(Error)
+      console.log({msg: "Invalid Credentials"})
   }
 
 }))
