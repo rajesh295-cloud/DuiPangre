@@ -58,16 +58,6 @@ catch(error){
 }))
 
 
-Router.get("/seller" , auth.sellerGuard, async (req,res) =>{
-  const seller = await Seller.findById({_id: req.params.id,
-  })
-
-  res.status(200).json({
-    success: true,
-    seller,
-  });
-} )
-
 
 Router.put("/seller/:id", auth.sellerGuard, async (req, res) => {
   if (req.body.password) {
