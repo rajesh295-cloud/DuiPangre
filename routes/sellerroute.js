@@ -69,7 +69,7 @@ Router.get("/seller" , auth.sellerGuard, async (req,res) =>{
 } )
 
 
-Router.put("/:id", auth.sellerGuard, async (req, res) => {
+Router.put("/seller/:id", auth.sellerGuard, async (req, res) => {
   if (req.body.password) {
     req.body.password = req.params.password
   }
@@ -88,18 +88,6 @@ Router.put("/:id", auth.sellerGuard, async (req, res) => {
   }
 });
 
-
-
-
-Router.get("/a", auth.sellerGuard, async (req, res) => {
-//  const fullname = req.body.fullname;
-//  const phonenumber = req.body.phonenumber;
-//  const email = req.body.email;
-
-console.log({_id: req.userinfo3._id})
-
-
-});
 
 
 module.exports = Router;
