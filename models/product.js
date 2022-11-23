@@ -26,7 +26,15 @@ const ProductSchema = new mongoose.Schema({
     brand:{
         type:String,
         required:true
+    },
+    ProductOwnedby:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Business",
+        required:true
+
     }
+
+    
 
 });
 
