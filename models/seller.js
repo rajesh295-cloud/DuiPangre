@@ -4,10 +4,12 @@ const mongoose = require("mongoose")
 const sellerSchema = new mongoose.Schema({
 
     firstname:{
-        type:String
+        type:String,
+        required:true
     },
     lastname:{
-        type: String
+        type: String,
+        required:true
     },
     phonenumber:{
         type:String,
@@ -21,8 +23,14 @@ const sellerSchema = new mongoose.Schema({
     },
 
     password:{
-        type:String
+        type:String,
+        required:true,
+    },
+    confirmpassword:{
+        type: String,
+        required: true
     }
+ 
     
 
 
