@@ -59,32 +59,14 @@ Router.post("/signin", asynchandler(async(req,res)=>{
 
 
 
-// Router.put("/:id", auth.userGuard, async (req, res) => {
-//   if (req.body.password) {
-//     req.body.password = req.params.password
-//   }
+Router.put("/update/:id", auth.userGuard, async (req, res) => {
+  if (req.body.password) {
+    req.body.password = req.params.password
+  }
 
-//   try {
-//     const updatedUser = await User.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         $set: req.body,
-//       },
-//       { new: true }
-//     );
-//     res.status(200).json(updatedUser);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-
-
-
-Router.put("/update", auth.userGuard, async (req, res) => {
   try {
-    const updatedUser = await User.findOneAndUpdate(
-      req.body.email,
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userInfo._id,
       {
         $set: req.body,
       },
@@ -95,6 +77,10 @@ Router.put("/update", auth.userGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
+
+
 
 
 

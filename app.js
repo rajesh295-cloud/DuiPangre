@@ -11,13 +11,14 @@ app.use(cors())
 const bodyparser = require("body-parser")
 
 
-
+const ProductRouter = require("./routes/ProductRoute")
 require("./database/db")
 
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(userRouter)
+app.use(ProductRouter)
 app.use(sellerRouter)
 
 app.get("/", (req, res) =>{
