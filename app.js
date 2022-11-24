@@ -12,6 +12,7 @@ const bodyparser = require("body-parser")
 
 
 const ProductRouter = require("./routes/ProductRoute")
+const CartRouter = require("./routes/CartRoute")
 require("./database/db")
 
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(userRouter)
 app.use(ProductRouter)
 app.use(sellerRouter)
+app.use(CartRouter)
 
 app.get("/", (req, res) =>{
     res.send("Server's Running")

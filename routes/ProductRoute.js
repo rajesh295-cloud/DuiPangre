@@ -6,16 +6,21 @@ const upload = require("../upload/upload")
 
 
 Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
-   const newProduct = new Product(req.body);
-   const img = req.file.filename;
    try{
-    const product = await newProduct.save();
-    res.json({msg: "Sucessfully added the product"})
-
- }
- catch(error){
-    res.json({msg: "Error adding the product"})
- }
+   const product = new Product({
+      name: req.body.name,
+      img: req.file.filename,
+      price: req.body.price,
+      brand: req.body.brand,
+      countInStock: req.body.countInStock,
+      desc: req.body.desc
+    });
+    const createdProduct = await product.save();
+    res.send({ message: 'Product Created', product: createdProduct });
+   }
+   catch(err){
+      res.json({msg: "Error adding the product"})
+   }
 })
 
 
