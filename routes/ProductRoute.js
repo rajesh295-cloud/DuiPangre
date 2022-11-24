@@ -3,13 +3,14 @@ const Product = require("../models/product")
 const Router = express.Router();
 const auth = require("../token/auth")
 const upload = require("../upload/upload")
+const asynchandler = require("express-async-handler")
 
 
 Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
    try{
    const product = new Product({
       name: req.body.name,
-      img: req.file.filename,
+      img: req.file.path,
       price: req.body.price,
       brand: req.body.brand,
       countInStock: req.body.countInStock,
@@ -25,22 +26,19 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
 
 
 
-Router.put("/:id", auth.sellerGuard, async(req, res) =>{
-   try{
-      const updatedProduct = await Product.findByIdAndUpdate(
-         req.params.id,
-         {
-            $set: req.body,
-         },
-         {new: true}
-        
-      )
-      res.status(200).json(updatedProduct);
-   }catch(err){
-      res.status(500).json(err)
-   }
-
-})
+Router.put("/:id", auth.sellerGuard, asynchandler(async(req, res) =>{
+   try {
+       await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body
+        }
+      );
+      res.status(200).json({msg : 1});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+}))
 
 
 
