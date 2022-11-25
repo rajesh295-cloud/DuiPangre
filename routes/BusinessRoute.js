@@ -19,8 +19,6 @@ Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
             BusinessPhonenumber: req.body.BusinessPhonenumber,
             BusinessAddress: req.body.BusinessAddress,
             
-        
-        
          });
          const createdProduct = await business.save();
  

@@ -83,20 +83,26 @@ Router.put("/update/:id", auth.userGuard, async (req, res) => {
   }
 });
 
+Router.get("/user/dashboard", auth.userGuard,(req,res)=>{
+
+  res.status(201).json(req.userInfo);
+
+
+
+})
 
 
 
 
 
+// Router.get("/search/:id", auth.userGuard, async (req, res) => {
+//   try {
+//     const user = await User.findById(req.params.id).select('-password')
+//     if(!user) return res.status(400).json({msg: "User does not exist."})
 
-Router.get("/search/:id", auth.userGuard, async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select('-password')
-    if(!user) return res.status(400).json({msg: "User does not exist."})
-
-    res.json(user)
-} catch (err) {
-    return res.status(500).json({msg: err.message})
-}
-});
+//     res.json(user)
+// } catch (err) {
+//     return res.status(500).json({msg: err.message})
+// }
+// });
 module.exports = Router;

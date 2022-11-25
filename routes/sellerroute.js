@@ -83,15 +83,15 @@ Router.put("/seller/:id", auth.sellerGuard, async (req, res) => {
 
 
 
-Router.get('/seller/:id', auth.sellerGuard, async (req, res)=> {
-  try {
-    const seller = await Seller.findById(req.params.id).select('-password')
-    if(!seller) return res.status(400).json({msg: "Seller does not exist."})
+// Router.get('/seller/:id', auth.sellerGuard, async (req, res)=> {
+//   try {
+//     const seller = await Seller.findById(req.params.id).select('-password')
+//     if(!seller) return res.status(400).json({msg: "Seller does not exist."})
 
-    res.json(seller)
-} catch (err) {
-    return res.status(500).json({msg: err.message})
-}
-});
+//     res.json(seller)
+// } catch (err) {
+//     return res.status(500).json({msg: err.message})
+// }
+// });
 
 module.exports = Router;
