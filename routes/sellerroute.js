@@ -23,7 +23,7 @@ Router.post("/seller/signup", asynchandler(async(req,res)=>{
           email:email,
           password: hashpassword,
           phonenumber:phonenumber,
-          password: confirmpassword
+          confirmpassword: hashedpassword
       });
       res.json({msg: "Registration successful"})
   }

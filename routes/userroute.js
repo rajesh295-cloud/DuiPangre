@@ -71,7 +71,7 @@ Router.put("/update/:id", auth.userGuard, async (req, res) => {
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      req.userInfo._id,
+      req.params.id,
       {
         $set: req.body,
       },
