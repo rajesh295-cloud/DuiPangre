@@ -24,22 +24,22 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
    }
 })
 
+//Update needs to be fixed
 
-
-Router.put("/:id", auth.sellerGuard, asynchandler(async(req, res) =>{
+Router.post("/update/:id", auth.sellerGuard, async(req,res)=>{
    try {
-       await Product.findByIdAndUpdate(
+      const updatedProduct = await Product.findByIdAndUpdate(
         req.params.id,
         {
-          $set: req.body
-        }
+          $set: req.body,
+        },
+        { new: true }
       );
-      res.status(200).json({msg : 1});
+      res.status(200).json(updatedProduct);
     } catch (err) {
       res.status(500).json(err);
     }
-}))
-
+})
 
 
 Router.delete("/:id", auth.sellerGuard, async(req,res) =>{
@@ -68,7 +68,7 @@ Router.get("/", async(req, res) =>{
 // Gets a product
 Router.get("/find/:id", async(req, res) =>{
    try{
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findOne(req.params.id);
       res.status(200).json(product);
    }
    catch(err){

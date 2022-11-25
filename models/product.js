@@ -11,7 +11,8 @@ const ProductSchema = new mongoose.Schema({
         required:true
     },
     img:{
-        type: String
+        type: String,
+    
     },
     countInStock: { 
         type: Number,
@@ -19,7 +20,7 @@ const ProductSchema = new mongoose.Schema({
          required: true },
 
     price:{
-        type: String,
+        type: Number,
         required:true
     },
     brand:{

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Seller = require("./seller")
+const sellerSchema = require("./seller")
 
 const BusinessSchema = new mongoose.Schema({
      Businessname:{
@@ -14,12 +14,10 @@ const BusinessSchema = new mongoose.Schema({
         type: String,
         required:true
      },
-     BusinessOwnedby:{
-
+     Businessownedby:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: Seller
-
-
+        ref: "User",
+        unique: true
      }
 })
 
