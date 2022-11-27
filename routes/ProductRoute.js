@@ -26,7 +26,7 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
 
 //Update needs to be fixed
 
-Router.post("/update/:id", auth.sellerGuard, async(req,res)=>{
+Router.post("/product/update", auth.sellerGuard, async(req,res)=>{
    try {
       const updatedProduct = await Product.findByIdAndUpdate(
         req.params.id,

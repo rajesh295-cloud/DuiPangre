@@ -3,14 +3,13 @@ const mongoose = require("mongoose")
 
 const sellerSchema = new mongoose.Schema({
 
-    firstname:{
-        type:String,
-        required:true
-    },
-    lastname:{
+
+
+    fullname: {
         type: String,
-        required:true
+        required: true
     },
+    
     phonenumber:{
         type:String,
         unique: true

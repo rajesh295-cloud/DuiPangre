@@ -13,8 +13,7 @@ const upload = require("../upload/upload")
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
+  const fullname = req.body.fullname;
   const email = req.body.email;
   const password = req.body.password;
   const phonenumber = req.body.phonenumber;
