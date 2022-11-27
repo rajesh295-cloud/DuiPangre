@@ -90,7 +90,7 @@ Router.put("/seller/:id", auth.sellerGuard, async (req, res) => {
   }
 });
 
-Router.get("/seller/dashboard", auth.sellerGuard,(req,res)=>{
+Router.get("/seller/profile", auth.sellerGuard,(req,res)=>{
 
   res.status(201).json(req.sellerInfo);
 

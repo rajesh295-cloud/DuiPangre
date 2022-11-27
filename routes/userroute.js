@@ -90,7 +90,7 @@ Router.put("/update/:id", auth.userGuard, async (req, res) => {
   }
 });
 
-Router.get("/user/dashboard", auth.userGuard,(req,res)=>{
+Router.get("/user/profile", auth.userGuard,(req,res)=>{
 
 
   res.status(201).json(req.userInfo._id);
