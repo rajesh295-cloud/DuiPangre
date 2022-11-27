@@ -7,7 +7,7 @@ module.exports.sellerGuard = (req,res,next)=>{
    const data = jwt.verify(token, 'mysecretkey')
    Seller.findOne({_id : data.id})
    .then((result)=>{
-        req.userInfo = result;
+        req.sellerInfo = result;
         next();
    })
    .catch((e)=>{

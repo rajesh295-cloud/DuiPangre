@@ -8,7 +8,7 @@ const token = require("../token/token")
 const Router = express.Router();
 
 const asynchandler = require("express-async-handler")
-
+const upload = require("../upload/upload")
 
 const nodemail = require("nodemailer")
 
@@ -85,11 +85,36 @@ Router.put("/update/:id", auth.userGuard, async (req, res) => {
 
 Router.get("/user/dashboard", auth.userGuard,(req,res)=>{
 
-  res.status(201).json(req.userInfo);
 
-
+  res.status(201).json(req.userInfo._id);
 
 })
+
+
+
+
+
+
+
+Router.put('/user/picture/update',auth.userGuard,upload.single('img'),(req,res)=>{
+  console.log(req.file)
+  if(req.file==undefined){
+      return res.json({msg : "invalid file format"});
+  }
+  const fileName= req.file.filename;
+  const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
+  
+  User.updateOne({_id : req.userInfo._id}, {picture : basePath + fileName})
+  .then(()=>{
+      res.json({msg: "Picture updated"})
+  })
+  .catch((e)=>{
+      res.json ({msg :"Please Try again "})
+  })
+})
+
+
+
 
 
 

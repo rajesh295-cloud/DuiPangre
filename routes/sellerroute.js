@@ -9,6 +9,7 @@ const Router = express.Router();
 const asynchandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const upload = require("../upload/upload")
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
@@ -79,6 +80,33 @@ Router.put("/seller/:id", auth.sellerGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+Router.get("/seller/dashboard", auth.sellerGuard,(req,res)=>{
+
+  res.status(201).json(req.sellerInfo);
+
+})
+
+
+
+
+Router.put('/seller/picture/update',auth.sellerGuard,upload.single('img'),(req,res)=>{
+  console.log(req.file)
+  if(req.file==undefined){
+      return res.json({msg : "invalid file format"});
+  }
+  const fileName= req.file.filename;
+  const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
+  
+  User.updateOne({_id : req.sellerInfo._id}, {picture : basePath + fileName})
+  .then(()=>{
+      res.json({msg: "Picture updated"})
+  })
+  .catch((e)=>{
+      res.json ({msg :"Please Try again "})
+  })
+})
+
 
 
 

@@ -21,7 +21,9 @@ const sellerSchema = new mongoose.Schema({
         
 
     },
-
+    img:{
+        type: String
+    },
     password:{
         type:String,
         required:true,

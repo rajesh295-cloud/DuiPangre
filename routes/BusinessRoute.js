@@ -12,7 +12,7 @@ const Seller = require("../models/seller")
 
 
 Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
-
+       console.log(req.sellerInfo.id)
     try{
         const business = new Business({
             Businessname:req.body.Businessname,
