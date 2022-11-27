@@ -13,7 +13,17 @@ const upload = require("../upload/upload")
 
 
 Router.post("/seller/signup", asynchandler(async(req,res)=>{
-  const {firstname,lastname, password, email, phonenumber, confirmpassword} = req.body;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const password = req.body.password;
+  const phonenumber = req.body.phonenumber;
+  const confirmpassword = req.body.confirmpassword;
+
+  if (password != confirmpassword){
+     res.status(500).json({msg: "Password does not match"
+     })
+  }
   const salt = await bcrypt.genSalt();
   const hashpassword = await bcrypt.hash(password, salt);
   const hashedpassword = await bcrypt.hash(confirmpassword, salt);

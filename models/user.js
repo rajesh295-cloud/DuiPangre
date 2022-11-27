@@ -21,10 +21,10 @@ const userSchema = new mongoose.Schema({
         
 
     },
-    img:{
+     img:{
         type: String
-    },
-
+     }
+, 
     password:{
         type:String,
         required:true
