@@ -8,7 +8,7 @@ const Router = express.Router();
 
 const asynchandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+
 const upload = require("../upload/upload")
 
 
@@ -98,7 +98,7 @@ Router.put('/seller/picture/update',auth.sellerGuard,upload.single('img'),(req,r
   const fileName= req.file.filename;
   const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
   
-  User.updateOne({_id : req.sellerInfo._id}, {picture : basePath + fileName})
+  Seller.updateOne({_id : req.sellerInfo._id}, {picture : basePath + fileName})
   .then(()=>{
       res.json({msg: "Picture updated"})
   })
