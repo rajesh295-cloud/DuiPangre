@@ -17,7 +17,11 @@ Router.post("/signup", asynchandler(async(req,res)=>{
 
 const {fullname, password, email, phonenumber, confirmpassword} = req.body;
 const salt = await bcrypt.genSalt();
-
+if(password != confirmpassword){
+  throw new Error("Password does not match")
+  stop();
+}
+  
 const hashpassword = await bcrypt.hash(password, salt);
 const hashedpassword= await bcrypt.hash(confirmpassword, salt);
 

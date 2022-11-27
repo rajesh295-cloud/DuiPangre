@@ -18,18 +18,17 @@ Router.post("/seller/signup", asynchandler(async(req,res)=>{
   const password = req.body.password;
   const phonenumber = req.body.phonenumber;
   const confirmpassword = req.body.confirmpassword;
-
-  if (password != confirmpassword){
-     res.status(500).json({msg: "Password does not match"
-     })
+  if(password != confirmpassword){
+    throw new Error("Password does not match")
+    stop();
   }
+    
   const salt = await bcrypt.genSalt();
   const hashpassword = await bcrypt.hash(password, salt);
   const hashedpassword = await bcrypt.hash(confirmpassword, salt);
   try{
       await Seller.create({
-          firstname:firstname,
-          lastname: lastname,
+          fullname:fullname,
           email:email,
           password: hashpassword,
           phonenumber:phonenumber,
