@@ -20,7 +20,8 @@ Router.post("/seller/signup", asynchandler(async(req,res)=>{
   const confirmpassword = req.body.confirmpassword;
   if(password != confirmpassword){
     throw new Error("Password does not match")
-    stop();
+    res.json({msg: "Password does not match" })
+  
   }
     
   const salt = await bcrypt.genSalt();

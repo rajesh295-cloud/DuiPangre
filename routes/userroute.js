@@ -19,7 +19,8 @@ const {fullname, password, email, phonenumber, confirmpassword} = req.body;
 const salt = await bcrypt.genSalt();
 if(password != confirmpassword){
   throw new Error("Password does not match")
-  stop();
+  res.json({msg: "Password does not match" })
+
 }
   
 const hashpassword = await bcrypt.hash(password, salt);
