@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const upload = require("../upload/upload")
 
 
-Router.post("/seller/signup", asynchandler(async(req,res)=>{
+Router.post("/seller/signup", asynchandler(async(req,res, next)=>{
   const fullname = req.body.fullname;
   const email = req.body.email;
   const password = req.body.password;
@@ -23,7 +23,17 @@ Router.post("/seller/signup", asynchandler(async(req,res)=>{
     res.json({msg: "Password does not match" })
   
   }
-    
+
+  if(emailvalidator.validate(req.body.email)){
+    res.status(200).json({msg: "Email is valid"})
+    next()
+  
+  
+  }
+   else{
+    throw new Error("Email is valid")
+    }
+  
   const salt = await bcrypt.genSalt();
   const hashpassword = await bcrypt.hash(password, salt);
   const hashedpassword = await bcrypt.hash(confirmpassword, salt);

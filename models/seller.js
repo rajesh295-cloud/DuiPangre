@@ -14,13 +14,19 @@ const sellerSchema = new mongoose.Schema({
         type:String,
         unique: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
-        
-
-    },
+    email: {
+        required: true,
+        type: String,
+        trim: true,
+        validate: {
+          validator: (value) => {
+            const re =
+              /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            return value.match(re);
+          },
+          message: "Please enter a valid email address",
+        },
+      },
     img:{
         type: String
     },
