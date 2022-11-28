@@ -31,7 +31,7 @@ Router.post("/seller/signup", asynchandler(async(req,res, next)=>{
   
   }
    else{
-    res.status(400).send('Invalid Email');
+    throw new Error("Email is valid")
     }
   
   const salt = await bcrypt.genSalt();
