@@ -6,14 +6,14 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const token = require("../token/token")
 const Router = express.Router();
-
+const emailvalidator = require("email-validator")
 const asynchandler = require("express-async-handler")
 const upload = require("../upload/upload")
 
 const nodemail = require("nodemailer")
 
 
-Router.post("/signup", asynchandler(async(req,res)=>{
+Router.post("/signup", asynchandler(async(req,res, next)=>{
 
 const {fullname, password, email, phonenumber, confirmpassword} = req.body;
 const salt = await bcrypt.genSalt();
@@ -27,7 +27,15 @@ const hashpassword = await bcrypt.hash(password, salt);
 const hashedpassword= await bcrypt.hash(confirmpassword, salt);
 
  
- 
+if(emailvalidator.validate(req.body.email)){
+  res.status(200).json({msg: "Email is valid"})
+  next()
+
+
+}
+ else{
+  res.status(400).send('Invalid Email');
+  }
 try{
   
     await User.create({
@@ -93,7 +101,7 @@ Router.put("/update/:id", auth.userGuard, async (req, res) => {
 Router.get("/user/profile", auth.userGuard,(req,res)=>{
 
 
-  res.status(201).json(req.userInfo._id);
+  res.status(201).json(req.userInfo);
 
 })
 
