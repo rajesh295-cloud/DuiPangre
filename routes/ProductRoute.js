@@ -24,22 +24,16 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
    }
 })
 
-//Update needs to be fixed
-
-Router.post("/product/update", auth.sellerGuard, async(req,res)=>{
+Router.put('/products/:id', auth.sellerGuard, async (req, res) => {
    try {
-      const updatedProduct = await Product.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
-      res.status(200).json(updatedProduct);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-})
+     const updatedProduct = await Product.updateOne({ _id: req.params.id},
+     { $set: { name: req.body.name,price: req.body.price, desc: req.body.desc, countInStock: req.body.countInStock, brand:req.body.brand }});
+     res.status(200).send("updated successfully");} 
+     catch (err) {
+     res.status(400).json({ message: err.message });
+   }
+});
+
 
 
 Router.delete("/:id", auth.sellerGuard, async(req,res) =>{
