@@ -14,12 +14,8 @@ const BusinessSchema = new mongoose.Schema({
         type: String,
         required:true
      },
-     Businessownedby:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Seller",
-        unique: true,
-        required:true
-     }
+     Seller: { type: mongoose.Schema.Types.ObjectId, ref: 'Seller', required: true },
+
 })
 
 

@@ -6,19 +6,19 @@ const Business = require("../models/business")
 const Router = express.Router();
 const auth = require("../token/auth")
 
-const Seller = require("../models/seller")
-
 
 
 
 Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
+   const Businessownedby = req.sellerInfo.id;
+   console.log(Businessownedby)
 
     try{
         const business = new Business({
             Businessname:req.body.Businessname,
             BusinessPhonenumber: req.body.BusinessPhonenumber,
             BusinessAddress: req.body.BusinessAddress,
-            Businessownedby: req.sellerInfo
+            Businessownedby: Businessownedby
             
          });
  

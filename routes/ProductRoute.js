@@ -24,15 +24,41 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
    }
 })
 
-Router.put('/products/:id', auth.sellerGuard, async (req, res) => {
-   try {
-     const updatedProduct = await Product.updateOne({ _id: req.params.id},
-     { $set: { name: req.body.name,price: req.body.price, desc: req.body.desc, countInStock: req.body.countInStock, brand:req.body.brand }});
-     res.status(200).send("updated successfully");} 
-     catch (err) {
-     res.status(400).json({ message: err.message });
+Router.put("product/update/:id", auth.sellerGuard, upload.single("img"), async (req,res)=>{
+ 
+   
+   const product = await Product.findById(req.params.id);
+   if(!product)
+       return res.status(400).send("Invalid product!");
+   
+   const file = req.file;
+   let imagePath;
+   
+   if(file){
+       const fileName = req.file.filename;
+       const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+       imagePath = `${basePath}${fileName}`;
    }
-});
+   else {
+       imagePath = product.img;
+   }
+   
+   const updatedProduct = await Product.findByIdAndUpdate(req.params.id,{
+       name: req.body.name,
+       desc: req.body.desc,
+       image: imagePath,
+       brand: req.body.brand,
+       price: req.body.price,
+       countInStock: req.body.countInStock,
+   },
+   {
+       new: true,
+   })
+   if(!updatedProduct){
+       return res.status(500).send('The product cannot be updated!');
+   }
+   res.status(201).send(updatedProduct);
+   })
 
 
 
