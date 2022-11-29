@@ -12,15 +12,15 @@ const Seller = require("../models/seller")
 
 
 Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
-       console.log(req.sellerInfo.id)
+
     try{
         const business = new Business({
             Businessname:req.body.Businessname,
             BusinessPhonenumber: req.body.BusinessPhonenumber,
             BusinessAddress: req.body.BusinessAddress,
+            Businessownedby: req.sellerInfo
             
          });
-         const createdProduct = await business.save();
  
 
          res.send({msg: "Business add successfully"});
