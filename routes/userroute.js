@@ -28,13 +28,13 @@ const hashedpassword= await bcrypt.hash(confirmpassword, salt);
 
  
 if(emailvalidator.validate(req.body.email)){
-  res.status(200).json({msg: "Email is valid"})
+  res.status(200).json({msg: "Registration successful"})
   next()
 
 
 }
  else{
-  res.status(400).send('Invalid Email');
+  res.status(500).json('Invalid Email');
   }
 try{
   

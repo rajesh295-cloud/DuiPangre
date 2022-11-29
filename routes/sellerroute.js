@@ -10,6 +10,10 @@ const asynchandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 
 const upload = require("../upload/upload")
+const emailvalidator = require("email-validator")
+const nodemailer = require("nodemailer")
+
+
 
 
 Router.post("/seller/signup", asynchandler(async(req,res, next)=>{
@@ -24,19 +28,23 @@ Router.post("/seller/signup", asynchandler(async(req,res, next)=>{
   
   }
 
-  if(emailvalidator.validate(req.body.email)){
-    res.status(200).json({msg: "Email is valid"})
-    next()
-  
-  
-  }
-   else{
-    throw new Error("Email is valid")
-    }
+
   
   const salt = await bcrypt.genSalt();
   const hashpassword = await bcrypt.hash(password, salt);
   const hashedpassword = await bcrypt.hash(confirmpassword, salt);
+
+
+   
+ if(emailvalidator.validate(req.body.email)){
+  res.status(200).json({msg: "Registration successful"})
+  next()
+
+
+ }
+ else{
+  res.status(500).json('Invalid Email');
+  }
   try{
       await Seller.create({
           fullname:fullname,
