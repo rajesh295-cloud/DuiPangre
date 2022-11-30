@@ -15,11 +15,7 @@ const BookingSchema = new mongoose.Schema({
  Date:{
     required: true,
     type: Date
- },
- Time:{
-    type: TimeRanges
  }
-    
 })
 
 

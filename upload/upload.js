@@ -19,6 +19,7 @@ const filter = (res, file, cb)=>{
 }
 
 const upload= multer({
-    storage:storage
+    storage:storage,
+    filter:filter
 });
 module.exports = upload;

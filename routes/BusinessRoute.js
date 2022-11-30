@@ -11,8 +11,6 @@ const auth = require("../token/auth")
 
 Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
    const Businessownedby = req.sellerInfo.id;
-   console.log(Businessownedby)
-
     try{
         const business = new Business({
             Businessname:req.body.Businessname,

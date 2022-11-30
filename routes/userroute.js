@@ -11,7 +11,7 @@ const asynchandler = require("express-async-handler")
 const upload = require("../upload/upload")
 
 const nodemail = require("nodemailer")
-
+const isEmail = require("isemail")
 
 Router.post("/signup", asynchandler(async(req,res, next)=>{
 
@@ -26,7 +26,7 @@ if(password != confirmpassword){
 const hashpassword = await bcrypt.hash(password, salt);
 const hashedpassword= await bcrypt.hash(confirmpassword, salt);
 
- 
+ isEmail.validate(req.body.email)
 if(emailvalidator.validate(req.body.email)){
   res.status(200).json({msg: "Registration successful"})
   next()
@@ -119,7 +119,7 @@ Router.put('/user/picture/update',auth.userGuard,upload.single('img'),(req,res)=
   const fileName= req.file.filename;
   const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
   
-  User.updateOne({_id : req.userInfo._id}, {picture : basePath + fileName})
+  User.updateOne({_id : req.userInfo._id}, {img : basePath + fileName})
   .then(()=>{
       res.json({msg: "Picture updated"})
   })
