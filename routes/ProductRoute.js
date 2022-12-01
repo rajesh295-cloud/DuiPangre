@@ -7,10 +7,17 @@ const asynchandler = require("express-async-handler")
 
 
 Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
+   console.log(req.file)
+   if(req.file==undefined){
+       return res.json({msg : "invalid file format"});
+   }
+   const fileName= req.file.filename;
+   const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
+
    try{
    const product = new Product({
       name: req.body.name,
-      img: req.file.filename,
+      img: basePath + fileName,
       price: req.body.price,
       brand: req.body.brand,
       countInStock: req.body.countInStock,
