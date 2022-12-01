@@ -10,7 +10,7 @@ Router.post("/add", auth.sellerGuard, upload.single('img'), async(req,res)=>{
    try{
    const product = new Product({
       name: req.body.name,
-      img: req.file.path,
+      img: req.file.filename,
       price: req.body.price,
       brand: req.body.brand,
       countInStock: req.body.countInStock,
@@ -35,28 +35,27 @@ Router.put('/products/:id', auth.sellerGuard, async (req, res) => {
 });
 
 
-Router.put('/product/picture/update',auth.userGuard, upload.single('img'),(req,res)=>{
+Router.put('/product/picture/update',auth.sellerGuard,upload.single('img'),(req,res)=>{
    console.log(req.file)
-   const file = req.file;
    if(req.file==undefined){
        return res.json({msg : "invalid file format"});
    }
-   else if (file){
-       const fileName= req.file.filename;
-       // const basePath = `${req.protocol}://${req.get("host")}/Upload/`;
-       const basePath = `${req.protocol}://${'localhost'}:${('90')}/uplaods/`;
-       data.image = basePath + fileName;
-   }
-   const id = req.params.id;
-   //const products = await Arena.findOne({ id: req.params.id });
-   Product.updateOne({_id : id}, {image : data.image })
+   const fileName= req.file.filename;
+   const basePath = `${req.protocol}://${'localhost'}:${('90')}/uploads/`;
+   
+   Seller.updateOne({_id : req.sellerInfo._id}, {img : basePath + fileName})
    .then(()=>{
        res.json({msg: "Picture updated"})
    })
    .catch((e)=>{
        res.json ({msg :"Please Try again "})
    })
-})
+ })
+ 
+ 
+ 
+
+
 
 Router.delete("/:id", auth.sellerGuard, async(req,res) =>{
    try{

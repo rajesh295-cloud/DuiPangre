@@ -6,12 +6,12 @@ const CartSchema = new mongoose.Schema({
 
     Productid:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Product'
+        ref:Product
     },
 
     Userid:{
          type: mongoose.Schema.Types.ObjectId,
-         ref: 'User'
+         ref: User
 
   },
     quantiy:{
