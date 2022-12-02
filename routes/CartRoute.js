@@ -1,8 +1,8 @@
 const express = require("express")
 const Cart = require("../models/cart");
+const Product = require("../models/product");
 const User = require("../models/user");
 const auth = require("../token/usertoken")
-
 
 const Router = express.Router();
 
@@ -10,8 +10,8 @@ const Router = express.Router();
 Router.get("/mine", auth.userGuard, (async(req,res)=>{
 
 
-  console.log(req.userInfo._id)
-  const orders = await Cart.findOne({userId: req.userInfo._id});
+
+  const orders = await Cart.find({}).populate('Userid')
   res.send(orders);
 }))
 

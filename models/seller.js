@@ -29,8 +29,10 @@ const sellerSchema = new mongoose.Schema({
     confirmpassword:{
         type: String,
         required:true
+    },
+    usertype:{
+        default: "Seller"
     }
-   
 
 
 
