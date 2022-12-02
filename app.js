@@ -1,5 +1,5 @@
 const express = require("express")
-
+const path = require("path")
 const app = express()
 const userRouter = require("./routes/userroute")
 const sellerRouter =require("./routes/sellerroute")
@@ -24,6 +24,8 @@ app.use(ProductRouter)
 app.use(sellerRouter)
 app.use(CartRouter)
 app.use(BusinessRouter)
+app.use('../uploads', express.static(path.join(__dirname, '/uploads')));
+
 app.get("/", (req, res) =>{
     res.send("Server's Running")
 })

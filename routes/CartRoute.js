@@ -1,9 +1,24 @@
 const express = require("express")
-const Cart = require("../models/cart")
+const Cart = require("../models/cart");
+const User = require("../models/user");
 const auth = require("../token/usertoken")
 
 
 const Router = express.Router();
+
+
+Router.get("/mine", auth.userGuard, (async(req,res)=>{
+
+
+  console.log(req.userInfo._id)
+  const orders = await Cart.findOne({userId: req.userInfo._id});
+  res.send(orders);
+}))
+
+
+
+
+
 
 
 
