@@ -31,6 +31,7 @@ const sellerSchema = new mongoose.Schema({
         required:true
     },
     usertype:{
+        type: "String",
         default: "Seller"
     }
 
