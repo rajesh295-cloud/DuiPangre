@@ -1,41 +1,109 @@
-const request = require("supertest");
-const app = require("../routes/userroute")
-const apps = require("../routes/sellerroute")
 
-describe("user signin", () => {
+import chai, { assert, expect, should } from "chai";
+import chaiHttp from "chai-http";
+import Product from "../routes/productRoutes.js";
 
 
-    it("returns 200 Ok when signin request is valid", () =>{
 
-        request(app).post('/signin').send({
+chai.use(chaiHttp)
+
+
+describe('Get all product', () => {
+
+    it('should return Product page',function(done){
+        chai.request(Product)
+        .get('http://localhost:5000/api/products')
+        .end(function(err,res){
+          expect(200);
+          done();
+
+
+        
+            
+        })
+      });
+    })
+
+
+
+
+
+    describe('Products added', () => {
+
+        it('Product added', function(done){
+            chai.request(Product)
+            .post('http://localhost:5000/api/products/')
+            .send({
+
+                name : "Test Product",
+                slug: "Test Product",
+                image: "/image/pd.jpg",
+                category: "Sample category",
+                brand: "Sample brand",
+                countInstock: 1,
+                description: "Sample descripition"
+
+
+
+            })
+            .end(function(err, res){
+              expect(200, done());
+               
+            })
+          });
+        })
+
+        describe('Products Updated', () => {
+
+            it('Product updated', function(done){
+                chai.request(Product)
+                .put('http://localhost:5000/api/products/')
+                .send({
     
-            email: "roy@email.com",
-       
-            password: "Passworded"
-        })
-        .then((response)=>{
-            expect(response.status).toBe(200);
-            done();
-        })
-    } )
-})
-
-
-
-describe("Seller signin" ,() =>{
-
-    it("returns 200 Ok when signin request is valid", () =>{
-
-        request(apps).post('/seller/signin').send({
+                    name : "Test Products",
+                    slug: "Test Products",
+                    image: "/image/pd.jpg",
+                    category: "Sample categorys",
+                    brand: "Sample brans",
+                    countInstock: 1,
+                    description: "Sample descripitions"
     
-            email: "roy@email.com",
-      
-            password: "Passworded"
-        })
-        .then((response)=>{
-            expect(response.status).toBe(200);
-            done();
-        })
-    } )
+    
+    
+                })
+                .end(function(err, res){
+                  expect(200, done());
+                   
+                })
+              });
+            })
 
-})
+
+    
+            describe('Products Deleted', () => {
+
+                it('Product Deleted', function(done){
+                    chai.request(Product)
+                    .delete('http://localhost:5000/api/products/1')
+                    .end(function(err, res){
+                      expect(res.status(500));
+                      done()
+                       
+                    })
+                  });
+                })
+
+
+            
+                describe('Products search', () => {
+
+                    it('Product search', function(done){
+                        chai.request(Product)
+                        .get('http://localhost:5000/api/products/slug/3')
+                        .end(function(err, res){
+                          expect(res.status(200));
+                          done()
+                           
+                        })
+                      });
+                    })

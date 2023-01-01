@@ -1,85 +1,85 @@
 
-const request = require("supertest");
-const app = require("../routes/userroute")
-const apps = require("../routes/sellerroute");
-const { expect } = require("chai");
+import chai, { assert, expect, should } from "chai";
+import chaiHttp from "chai-http";
+import Order from "../routes/orderRoutes.js";
 
 
 
-describe("updating user", () => {
+chai.use(chaiHttp)
 
-    it("returns updated", () =>{
-        const updateduser = {fullname: "Fullnames"}
-        const expectedresponse ={...app, ...updateduser}
-        request(app).put('/1').send(updateduser)
-        .end((err, res)=>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
 
+describe('Get all Orders', () => {
+
+    it('should return Order page',function(done){
+        chai.request(Order)
+        .get('http://localhost:5000/api/orders')
+        .end(function(err,res){
+          expect(500);
+          done();
+
+
+        
+            
         })
-    } )
-  
-
-})
-
-
-describe("updating seller", () => {
-
-    it("returns updated", () =>{
-        const updateduser = {firstname: "firstname", lastname : "lastnames"}
-        const expectedresponse ={...apps, ...updateduser}
-        request(apps).put('/seller/1').send(updateduser)
-        .end((err, res)=>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
-
-        })
-    } )
-  
-
-})
-
-
-
-describe("get user", () => {
-
-    it("returns updated", () =>{
-        const expectedresponse ={...apps}
-        request(apps).get("/1")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
-        })
-
-    } )
-  
-
-})
+      });
+    })
 
 
 
 
-describe("update seller", () => {
 
-    it("getting seller", () =>{
-        const expectedresponse ={...app}
-        request(app).get("/seller/1")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
+    describe('Order added', () => {
+
+        it('Order added', function(done){
+            chai.request(Order)
+            .post('http://localhost:5000/api/orders/')
+            .send({
+
+                OrdertItems: ({ product: 3}),
+                shippingAddress: ({Address: "Test shipping addresses"}),
+                paymentMethod: "Paypal",
+                ItemPrice: 34,
+                shippingPrice: 3,
+                TaxPrice: 4,
+                TotalPrice: 41,
+                User: "124151251251"
+
+
+
+
+            })
+            .end(function(err, res){
+              expect(500, done());
+               
+            })
+          });
         })
 
-    } )
-  
+        describe('Getting Order', () => {
 
-})
+            it('Getting order', function(done){
+                chai.request(Order)
+                .get('http://localhost:5000/api/orders/1')
+                .end(function(err, res){
+                  expect(200);
+                  done();
+                   
+                })
+              });
+            })
 
 
 
+            
+                describe('Order Deleted', () => {
 
-
-
-
-
+                    it('Order deleted', function(done){
+                        chai.request(Order)
+                        .delete('http://localhost:5000/api/orders/3')
+                        .end(function(err, res){
+                          expect(res.status(200));
+                          done()
+                           
+                        })
+                      });
+                    })

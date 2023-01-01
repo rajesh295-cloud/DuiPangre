@@ -1,126 +1,82 @@
 
-const request = require("supertest");
-const app = require("../routes/ProductRoute")
-const { expect } = require("chai");
-
-describe("product add ", () => {
+import chai, { assert, expect, should } from "chai";
+import chaiHttp from "chai-http";
+import Business from "../routes/businessRoute.js";
 
 
-    it("adds product", () =>{
 
-        request(app).post('/addproduct').send({
-    
-            name: "PRoduct1",
-            img: "new.jpg",
-            price: 3,
-            brand: "new",
-            countInStock: 4,
-            desc: "products"
+chai.use(chaiHttp)
+
+
+describe('Get all business', () => {
+
+    it('should return Business page',function(done){
+        chai.request(Business)
+        .get('http://localhost:5000/api/businesses/')
+        .end(function(err,res){
+          expect(200);
+          done();
+
+
+        
+            
         })
-        .then((response)=>{
-            expect(response.status).toBe(200);
-            done();
-        })
-    } )
-})
+      });
+    })
 
 
 
-describe("updating product", () => {
 
-    it("returns product", () =>{
-        const updatedproduct = {name: "firstname", desc : "lastnames"}
-        const expectedresponse ={...app, ...updatedproduct}
-        request(app).put('/seller/1').send(updatedproduct)
-        .end((err, res)=>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
 
-        })
-    } )
-  
+    describe('Business added', () => {
 
-})
+        it('Business added', function(done){
+            chai.request(Business)
+            .post('http://localhost:5000/api/businesses/')
+            .send({
 
 
 
-describe("get product", () => {
+                name : "Test Business",
+                slug: "Test Business",
+                image: "/image/pd.jpg",
+              
+                countInstock: 1,
+                address: "Sample address",
+                description: "Sample description"
 
-    it("returns product", () =>{
-        const expectedresponse ={...app}
-        request(app).get("/")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
+            })
+            .end(function(err, res){
+              expect(200, done());
+               
+            })
+          });
         })
 
-    } )
-  
+        describe('Getting One Business', () => {
 
-})
-
-
-
-
-
-
-
-describe("get through id", () => {
-
-    it("returns updated", () =>{
-        const expectedresponse ={...app}
-        request(app).get("/find/1")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
-        })
-
-    } )
-})
+            it('Getting One business', function(done){
+                chai.request(Business)
+                .get('http://localhost:5000/api/businesses/3')
+                .end(function(err, res){
+                  expect(200);
+                  done();
+                   
+                })
+              });
+            })
 
 
+            
+                describe('Business Deleted', () => {
 
-
-
-
-describe("get through id deletes", () => {
-
-    it("delets product", () =>{
-        const expectedresponse ={...app}
-        request(app).delete("/find/1")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
-        })
-
-    } )
-})
-
-
-
-describe("update seller", () => {
-
-    it("getting seller", () =>{
-        const expectedresponse ={...app}
-        request(app).get("/seller/1")
-        .expect(200)
-        .end((err, res) =>{
-            expect(res.body).toEqual(expectedresponse)
-            done()
-        })
-
-    } )
-  
-
-})
-
-
-
-
-
-
-
-
+                    it('Business deleted', function(done){
+                        chai.request(Business)
+                        .delete('http://localhost:5000/api/businesses/4')
+                        .end(function(err, res){
+                          expect(500);
+                          done()
+                           
+                        })
+                      });
+                    })

@@ -1,72 +1,129 @@
-const express = require("express")
-
-const Business = require("../models/business")
-
-
-const Router = express.Router();
-const auth = require("../token/auth")
+import express from "express";
+import expressAsyncHandler from 'express-async-handler';
+import Business from '../models/businessmodel.js';
+import { isAuth, isAdmin } from "../utils.js";
 
 
 
+const businessRouter = express.Router();
 
-Router.post("/addbusiness", auth.sellerGuard, async(req,res)=>{
-   const Businessownedby = req.sellerInfo.id;
-    try{
-        const business = new Business({
-            Businessname:req.body.Businessname,
-            BusinessPhonenumber: req.body.BusinessPhonenumber,
-            BusinessAddress: req.body.BusinessAddress,
-            Businessownedby: Businessownedby
-            
-         });
- 
 
-         res.send({msg: "Business add successfully"});
-        }
-        catch(err){
-           res.json({msg: "Error adding the Business"})
-        }
+
+businessRouter.get('/', async (req, res) => {
+    const business = await Business.find();
+    res.send(business);
+});
   
 
-})
+
+
+businessRouter.post("/addbusiness", isAuth, isAdmin,expressAsyncHandler(async(req,res)=>{
+    const business = new Business({
+        name: "sample name"+ Date.now(),
+        slug: "sample slug" + Date.now(),
+        countInstock: 0,
+        image: "/images/p4.jpg",
+        address: "sample address"+ Date.now(),
+        description: "sample description"+ Date.now()
+
+    })
+    const businesses = await business.save();
+    res.send({ message: 'Business Created', businesses });
 
 
 
-Router.delete("/delete_business/:id", auth.sellerGuard, async(req, res) =>{
-    try{
-        await Business.findByIdAndDelete(req.params.id);
-        res.status(200).json("Business's deleted");
-     }
-     catch(err){
-        res.status(500).json(err);
-     }
-})
+}))
 
 
 
-Router.get("/name/:id", async(req, res) =>{
-    try{
-        const business = await Business.findById(req.params.id).sort();
-        res.status(200).json(business);
-     }
-     catch(err){
-        res.status(500).json({msg: "Business does not exist"})
-     }
-
-})
-
-Router.get("/all", async(req, res) =>{
-    try{
-        const business = await Business.find().sort();
-        res.status(200).json(business);
-     }
-     catch(err){
-        res.status(500).json(err)
-     }
-
-    
-} )
+businessRouter.delete('/:id',isAuth,isAdmin,expressAsyncHandler(async (req, res) => {
+      const business = await Business.findById(req.params.id);
+      if (business) {
+        await business.remove();
+        res.send({ message: 'Business Deleted' });
+      } else {
+        res.status(404).send({ message: 'Business Not Found' });
+      }
+    })
+);
 
 
 
-module.exports = Router;
+
+
+businessRouter.put(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const businessid = req.params.id;
+    const business = await Business.findById(businessid);
+    if (business) {
+      business.name = req.body.name;
+      business.slug = req.body.slug;
+      business.image = req.body.image;
+      business.countInstock = req.body.countInstock;
+      business.address = req.body.address;
+      business.description = req.body.description;
+      await business.save();
+      res.send({ message: 'Product Updated' });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
+
+const PAGE_SIZE = 5;
+
+businessRouter.get(
+  '/admin',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const { query } = req;
+    const page = query.page || 1;
+    const pageSize = query.pageSize || PAGE_SIZE;
+
+    const businesses = await Business.find()
+      .skip(pageSize * (page - 1))
+      .limit(pageSize);
+    const countbusinesses = await Business.countDocuments();
+    res.send({
+      businesses,
+      countbusinesses,
+      page,
+      pages: Math.ceil(countbusinesses / pageSize),
+    });
+  })
+);
+
+
+businessRouter.get('/slug/:slug', async (req, res) => {
+  const business = await Business.findOne({ slug: req.params.slug });
+  if (business) {
+    res.send(business);
+  } else {
+    res.status(404).send({ message: 'Business Not Found' });
+  }
+});
+
+
+
+
+businessRouter.get('/:id', async (req, res) => {
+    const business = await Business.findById(req.params.id);
+    if (business) {
+      res.send(business);
+    } else {
+      res.status(404).send({ message: 'Business Not Found' });
+    }
+});
+
+
+
+
+
+
+
+
+export default businessRouter;
