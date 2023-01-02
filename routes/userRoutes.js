@@ -4,7 +4,6 @@ import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import { isAuth, isAdmin, generateToken } from "../utils.js";
 import nodemailer from "nodemailer";
-// import mg from "mailgun-js";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 
