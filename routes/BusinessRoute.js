@@ -21,6 +21,7 @@ businessRouter.post("/addbusiness", isAuth, isAdmin,expressAsyncHandler(async(re
     const business = new Business({
         name: "sample name"+ Date.now(),
         slug: "sample slug" + Date.now(),
+        countInstock: 0,
         image: "/images/p4.jpg",
         address: "sample address"+ Date.now(),
         description: "sample description"+ Date.now()
@@ -60,6 +61,7 @@ businessRouter.put(
     if (business) {
       business.name = req.body.name;
       business.slug = req.body.slug;
+      business.countInstock = req.body.countInstock;
       business.image = req.body.image;
       business.address = req.body.address;
       business.description = req.body.description;
