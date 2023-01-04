@@ -30,22 +30,14 @@ function Business(props) {
 
   return (
     <Card>
-        
+         <Link to={`/business/${business.slug}`}>
         <img src={business.image} className="card-img-top" alt={business.name} />
-    
+        </Link>
       <Card.Body>
         <Link to={`/business/${business.slug}`}>
           <Card.Title>{business.name}</Card.Title>
         </Link>
-        {/* <Rating rating={business.rating} numReviews={product.numReviews} />
-        <Card.Text>${product.price}</Card.Text>
-        {product.countInStock === 0 ? (
-          <Button variant="light" disabled>
-            Out of stock
-          </Button>
-        ) : (
-          <Button onClick={() => addToCartHandler(product)}>Add to cart</Button>
-        )} */}
+        <Card.Text>{business.address}</Card.Text>
       </Card.Body>
     </Card>
   );

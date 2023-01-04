@@ -64,7 +64,7 @@ export default function EditBusinessScreen() {
   const [address, setAddress] = useState('');
   const [images, setImages] = useState([]);
   const [image, setImage] = useState('');
-  const [countInstock, setcountInstock] = useState('');
+  // const [countInstock, setcountInstock] = useState('');
   const [description, setDescription] = useState('');
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function EditBusinessScreen() {
         setImage(data.image);
         setAddress(data.address);
         setDescription(data.description);
-        setcountInstock(data.countInstock)
+        // setcountInstock(data.countInstock)
         dispatch({ type: 'FETCH_SUCCESS' });
       } catch (err) {
         dispatch({
@@ -100,7 +100,7 @@ export default function EditBusinessScreen() {
           slug,
           // price,
           image,
-          countInstock,
+          // countInstock,
           address,
           description,
         },
@@ -209,53 +209,15 @@ export default function EditBusinessScreen() {
             {loadingUpload && <LoadingBox></LoadingBox>}
           </Form.Group>
 
-          {/* <Form.Group className="mb-3" controlId="additionalImage">
-            <Form.Label>Additional Images</Form.Label>
-            {images.length === 0 && <MessageBox>No image</MessageBox>}
-            <ListGroup variant="flush">
-              {images.map((x) => (
-                <ListGroup.Item key={x}>
-                  {x}
-                  <Button variant="light" onClick={() => deleteFileHandler(x)}>
-                    <i className="fa fa-times-circle"></i>
-                  </Button>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="additionalImageFile">
-            <Form.Label>Upload Additional Image</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(e) => uploadFileHandler(e, true)}
-            />
-            {loadingUpload && <LoadingBox></LoadingBox>}
-          </Form.Group> */}
-
-          {/* <Form.Group className="mb-3" controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            />
-          </Form.Group> */}
-          {/* <Form.Group className="mb-3" controlId="brand">
-            <Form.Label>Brand</Form.Label>
-            <Form.Control
-              value={brand}
-              onChange={(e) => setBrand(e.target.value)}
-              required
-            />
-          </Form.Group> */}
-    <Form.Group className="mb-3" controlId="countInStock">
+         
+    {/* <Form.Group className="mb-3" controlId="countInStock">
             <Form.Label>Count In Stock</Form.Label>
             <Form.Control
               value={countInstock}
               onChange={(e) => setcountInstock(e.target.value)}
               required
             />
-          </Form.Group>
+          </Form.Group> */}
           
           <Form.Group className="mb-3" controlId="address">
             <Form.Label>Address</Form.Label>

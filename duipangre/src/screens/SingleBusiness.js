@@ -417,6 +417,10 @@ function SingleBusinessScreen() {
               Description:
               <p>{business.description}</p>
             </ListGroup.Item>
+            <ListGroup.Item>
+              Address:
+              <p>{business.address}</p>
+            </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>

@@ -316,7 +316,7 @@ export default function OrderScreen() {
                         ></PayPalButtons>
                       </div>
                     )}
-                    {loadingPay && <LoadingBox></LoadingBox>}
+                    {/* {loadingPay && <LoadingBox></LoadingBox>} */}
                   </ListGroup.Item>
                 )}
 
