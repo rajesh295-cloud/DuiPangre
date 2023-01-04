@@ -41,7 +41,7 @@ describe('Get all business', () => {
                 slug: "Test Business",
                 image: "/image/pd.jpg",
               
-                countInstock: 1,
+                
                 address: "Sample address",
                 description: "Sample description"
 
