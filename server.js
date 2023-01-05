@@ -13,13 +13,12 @@ import BookingRouter from './routes/bookingRoute.js';
 dotenv.config({path: "./.env.example"});
 mongoose.set('strictQuery', false);
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('connected to db');
-  })
-  .catch((err) => {
-    console.log(err.message);
-});
+
+
+mongoose.connect(process.env.MONGODB_URI , {
+  useNewUrlParser:true,
+  useUnifiedTopology: true
+})
 
 
 
