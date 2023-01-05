@@ -252,6 +252,7 @@ export default function ProductEditScreen() {
             <Form.Control
               value={countInStock}
               onChange={(e) => setCountInStock(e.target.value)}
+              min="0"
               required
             />
           </Form.Group>
