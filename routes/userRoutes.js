@@ -119,7 +119,7 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
+      if (bcrypt.compare(req.body.password, user.password)) {
         res.send({
           _id: user._id,
           name: user.name,
