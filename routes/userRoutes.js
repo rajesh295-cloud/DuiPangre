@@ -20,6 +20,9 @@ const userRouter = express.Router();
 
 const transporter = nodemailer.createTransport({
   service:"gmail",
+  port: 587,
+  secure: false, 
+  requireTLS: true,
   auth:{
       user:"ssarthak737@gmail.com",
       pass:"yzcacryobktvfwze"
