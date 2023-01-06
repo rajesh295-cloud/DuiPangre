@@ -133,7 +133,7 @@ function App() {
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>Order History</NavDropdown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/bookinghistory">
+                      <LinkContainer to="/my-bookings">
                         <NavDropdown.Item>Booking History</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
