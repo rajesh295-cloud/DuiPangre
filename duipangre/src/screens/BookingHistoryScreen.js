@@ -35,7 +35,7 @@ export default function BookingHistoryScreen() {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(
-          `/api/booking/me`,
+          `/api/booking/mine`,
 
           { headers: { Authorization: `Bearer ${userInfo.token}` } }
         );
